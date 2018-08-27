@@ -78,7 +78,7 @@ table, td {
 				</div>
 				<div class="val">
 					<div class="number">
-						millis = <span class="millis"></span>;
+						millis = <span class="millis"></span>
 					</div>
 
 					<div class="explanation">
@@ -87,7 +87,7 @@ table, td {
 				</div>
 				<div class="val">
 					<div class="number">
-						JDUT = <span class="jdut"></span>;
+						JDUT = <span class="jdut"></span>
 					</div>
 
 					<div class="explanation">
@@ -99,7 +99,7 @@ table, td {
 				</div>
 				<div class="val">
 					<div class="number">
-						TAI-UTC = <span class="taiMinusUtc"></span>s;
+						TAI-UTC = <span class="taiMinusUtc"></span>s
 					</div>
 
 					<div class="explanation">
@@ -111,7 +111,7 @@ table, td {
 				</div>
 				<div class="val">
 					<div class="number">
-						TT-UTC = <span class="ttMinusUtc"></span>s;
+						TT-UTC = <span class="ttMinusUtc"></span>s
 					</div>
 
 					<div class="explanation">
@@ -123,7 +123,7 @@ table, td {
 				</div>
 				<div class="val">
 					<div class="number">
-						JDTT = <span class="jdtt"></span>;
+						JDTT = <span class="jdtt"></span>
 					</div>
 
 					<div class="explanation">
@@ -135,7 +135,7 @@ table, td {
 				</div>
 				<div class="val">
 					<div class="number">
-						ΔtJ2000 = <span class="timeOffsetJ2000"></span>;
+						ΔtJ2000 = <span class="timeOffsetJ2000"></span>
 					</div>
 
 					<div class="explanation">
@@ -153,7 +153,7 @@ table, td {
 				</div>
 				<div class="val">
 					<div class="number">
-						M = <span class="meanAnomaly"></span>;
+						M = <span class="meanAnomaly"></span>
 					</div>
 
 					<div class="explanation">
@@ -165,7 +165,7 @@ table, td {
 				</div>
 				<div class="val">
 					<div class="number">
-						αFMS = <span class="angleFMS"></span>;
+						αFMS = <span class="angleFMS"></span>
 					</div>
 
 					<div class="explanation">
@@ -177,7 +177,7 @@ table, td {
 				</div>
 				<div class="val">
 					<div class="number">
-						PBS = <span class="pbs"></span>;
+						PBS = <span class="pbs"></span>
 					</div>
 
 					<div class="explanation">
@@ -231,7 +231,7 @@ table, td {
 				</div>
 				<div class="val">
 					<div class="number">
-						v-M = <span class="equationOfCenter"></span>;
+						v-M = <span class="equationOfCenter"></span>
 					</div>
 
 					<div class="explanation">
@@ -243,7 +243,7 @@ table, td {
 				</div>
 				<div class="val">
 					<div class="number">
-						Solar Longitude = <span class="Ls"></span>;
+						Solar Longitude = <span class="Ls"></span>
 					</div>
 
 					<div class="explanation">
@@ -261,7 +261,7 @@ table, td {
 				</div>
 				<div class="val">
 					<div class="number">
-						Equation of Time = <span class="equationOfTime"></span>&deg;
+						Equation of Time = <span class="equationOfTime"></span>&deg
 					</div>
 
 					<div class="explanation">
@@ -273,7 +273,19 @@ table, td {
 				</div>
 				<div class="val">
 					<div class="number">
-						MTC = <span class="mtc"></span>;
+						Mars Solar Date = <span class="msd"></span>
+					</div>
+
+					<div class="explanation">
+						Determine Mars Solar Date
+					</div>
+					<div class="equation">
+						MSD = [(JDTT - 2451549.5) / 1.0274912517] + 44796.0 - 0.0009626 
+					</div>
+				</div>
+				<div class="val">
+					<div class="number">
+						MTC = <span class="mtc"></span>
 					</div>
 
 					<div class="explanation">
@@ -285,7 +297,7 @@ table, td {
 				</div>
 				<div class="val">
 					<div class="number">
-						LMST = <span class="lmst"></span>;
+						LMST = <span class="lmst"></span>
 					</div>
 
 					<div class="explanation">
@@ -297,7 +309,7 @@ table, td {
 				</div>
 				<div class="val">
 					<div class="number">
-						LTST = <span class="ltst"></span>;
+						LTST = <span class="ltst"></span>
 					</div>
 
 					<div class="explanation">
@@ -309,7 +321,7 @@ table, td {
 				</div>
 				<div class="val">
 					<div class="number">
-						subsolar Longitude = <span class="subsolarLongitude"></span>;
+						subsolar Longitude = <span class="subsolarLongitude"></span>
 					</div>
 
 					<div class="explanation">
@@ -321,7 +333,7 @@ table, td {
 				</div>
 				<div class="val">
 					<div class="number">
-						Mars Time = <span class="marsTime"></span>;
+						Mars Time = <span class="marsTime"></span>
 					</div>
 
 					<div class="explanation">
@@ -334,18 +346,20 @@ table, td {
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script>
-		function millisToReadableTime(millisToDisplay){
-			var tempHours = millisToDisplay / (60*60*1000);
-	 		var hours = Math.floor(tempHours); //Get complete hours 
-	 		var modHours = hours % 24;
-	 		var withoutHours = millisToDisplay - (hours*60*60*1000); //subtract hours
-	 		var tempMinutes = withoutHours / (1000*60); //get minutes
-	 		var minutes = Math.floor(tempMinutes); //get complete minutes
-	 		var withoutMinutes = withoutHours - (minutes*60*1000); //subtract minutes
-	 		var tempSeconds = withoutMinutes / 1000; //get seconds
-	 		var seconds = Math.floor(tempSeconds); //get complete seconds
-	 		return modHours + ':' + minutes + ':' + seconds;
 
+	 	function dayToHHMMSS(solarDate){
+	 		//var Fh = frac(solarDate);
+	 		var Fh = solarDate - Math.floor(solarDate);
+	 		var hours = Math.floor(24 * Fh);
+	 		//var Fm = frac(24 * Fh);
+	 		var Fm = (24*Fh) - Math.floor(24*Fh);
+	 		var minutes = Math.floor(60 * Fm);
+	 		var fracSec = (60*Fm) - Math.floor(60*Fm);
+	 		var seconds = Math.floor(60 * fracSec);
+	 		var textHours = (hours<10) ? "0"+hours : ""+hours;
+	 		var textMinutes = (minutes<10) ? "0"+minutes : ""+minutes;
+	 		var textSeconds = (seconds<10) ? "0"+seconds : ""+seconds;
+	 		return textHours + ":"+ textMinutes +":"+ textSeconds;
 	 	}
 	 	function cos(deg) {
 	 		return Math.cos(deg * Math.PI / 180);
@@ -374,6 +388,7 @@ table, td {
 	 		var equationOfCenter =  (10.691 +( 3.0 * 10E-7 * timeOffsetJ2000))* sin(meanAnomaly) + 0.623* sin(2*meanAnomaly) + 0.050* sin(3*meanAnomaly) + 0.005* sin(4*meanAnomaly) + 0.0005* sin(5*meanAnomaly) + pbs;
 	 		var Ls = angleFMS + equationOfCenter;
 	 		var equationOfTime =  (2.861* sin (2*Ls)) - (0.071* sin (4*Ls)) + (0.002* sin(6*Ls)) - equationOfCenter;
+	 		var msd = ( ((jdtt - 2451549.5) / 1.0274912517) + 44796.0 - 0.0009626 );
 	 		var withoutModMTC =  24 * ( ((jdtt - 2451549.5) / 1.0274912517) + 44796.0 - 0.0009626 ) ;
 	 		var mtc = withoutModMTC % 24;
             var lmst = mtc; // - degree*(1/15)
@@ -392,16 +407,20 @@ table, td {
             $(".equationOfCenter").text(equationOfCenter.toFixed(5));
             $(".Ls").text(Ls.toFixed(5));
             $(".equationOfTime").text(equationOfTime.toFixed(5));
+            $(".msd").text(msd.toFixed(5));
             $(".mtc").text(mtc.toFixed(5));
             $(".lmst").text(lmst.toFixed(5));
             $(".ltst").text(ltst.toFixed(5));
             $(".subsolarLongitude").text(subsolarLongitude.toFixed(5));
-            $(".marsTime").text(millisToReadableTime(withoutModMTC));
+            $(".marsTime").text(dayToHHMMSS(msd));
             document.getElementById("displayEarth").innerHTML = d.toUTCString();
-            document.getElementById("displayMars").innerHTML = millisToReadableTime(withoutModMTC);
+            document.getElementById("displayMars").innerHTML = dayToHHMMSS(msd);
 
 
         }
+        $(function(){
+        	setInterval(getMarsTime,10);
+        });
 
     </script>
 </body>
