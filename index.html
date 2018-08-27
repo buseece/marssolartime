@@ -90,18 +90,19 @@ h2{
 			<p>The calculations are made regarding the equations supplied by NASA.</p>
 			<div class="customDate" style="left:20px;">
 				<input type="date" name="bday" id="datePicker">
-				<input type="button" value="date" id="datebtn">
+				<!--<input type="button" value="date" id="datebtn">-->
+				<input type="time" id="hourPicker" name="hour" min="00:00" max="24:00"  />
 			</div>
 			<div class="display">
 				<div class="earth">
-				<h2 style="color: grey">Earth</h2>
-				 <span id="displayEarthDate" style="margin-right:10px;"></span>
-				 <span id="displayEarthTime"></span>
+					<h2 style="color: grey">Earth</h2>
+					<span id="displayEarthDate" style="margin-right:10px;"></span>
+					<span id="displayEarthTime"></span>
 				</div>
 				<div class="mars">
-				<h2 style="color: grey">Mars</h2>
-				<span class="msd" style="margin-right:10px;"></span>
-				<span id="displayMars"></span>
+					<h2 style="color: grey">Mars</h2>
+					<span class="msd" style="margin-right:10px;"></span>
+					<span id="displayMars"></span>
 				</div>
 			</div>
 		</div>
@@ -503,6 +504,7 @@ h2{
     	var s = addZero(d.getSeconds());
     	return h + ":" + m + ":" + s;
     }
+
     function getMarsTime(){
     	var d = new Date();
     	if($('#datePicker').val()){
@@ -510,8 +512,18 @@ h2{
     		var year = strDate.substring(0,4);
     		var month = strDate.substring(5,7);
     		var day = strDate.substring(8,10);
-    		d = new Date(strDate);
+    		if($('#hourPicker').val()){
+    			var hhmm = $('#hourPicker').val();
+    			var hour = hhmm.substring(0,2);
+    			var minutes = hhmm.substring(3,5);
+    			d = new Date(year,month,day,hour,minutes);
+    		}else{
+    			d = new Date(year,month,day,0,0);
+    		}
+    		
     	}
+
+    	
     	var millis = d.getTime();
     	var jdut = 2440587.5 + (millis / (8.64E7));
     	var taiMinusUtc = getLeapSeconds(d);
