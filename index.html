@@ -81,14 +81,7 @@ h2{
 .label{
 	color: grey;
 }
-.earth{
-	display: inline-block;
-	margin-right: 20px;
-}
-.mars{
-	display: inline-block;
-	margin-left: 20px;
-}
+
 </style>
 <body onload="getMarsTime()">
 	<div class = "container">
@@ -102,13 +95,13 @@ h2{
 			<div class="display">
 				<div class="earth">
 				<h2 style="color: grey">Earth</h2>
-				<p class="label">Date</p> <span id="displayEarthDate"></span><br>
-				<p class="label">Time</p> <span id="displayEarthTime"></span>
+				 <span id="displayEarthDate" style="margin-right:10px;"></span>
+				 <span id="displayEarthTime"></span>
 				</div>
 				<div class="mars">
 				<h2 style="color: grey">Mars</h2>
-				<p class="label">Date</p> <span class="msd"></span><br>
-				<p class="label">Time</p> <span id="displayMars"></span>
+				<span class="msd" style="margin-right:10px;"></span>
+				<span id="displayMars"></span>
 				</div>
 			</div>
 		</div>
