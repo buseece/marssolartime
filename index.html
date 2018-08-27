@@ -1,16 +1,361 @@
 <html>
-	<head>
-		<title>Mars Solar Time Calculation</title>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	 <script>
+<head>
+	<title>Mars Solar Time Calculation</title>
+
+</head>
+<script type="text/javascript"></script>
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+
+<style type="text/css">
+body{
+	font-family:'Source Sans Pro', sans-serif; 
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+table{
+	margin-left: auto;
+	margin-right: auto;
+}
+table, td {
+    border: 1px solid black;
+    padding: 5px;
+
+}
+
+.intro{
+	width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 10px;
+	border: 2px solid grey;
+	padding: 20px;
+}
+.display{
+	text-align: center;
+}
+.part{
+	width: 40%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 10px;
+	padding: 20px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.val{
+	width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 10px;
+	padding: 20px;
+	text-align: center;
+}
+.number{
+	text-align: center;
+	margin-bottom: 5px;
+	
+}
+.explanation{
+	color: grey;
+	margin-bottom: 5px;
+}
+</style>
+<body onload="getMarsTime()">
+	<div class = "container">
+		<div class = "intro">
+			<h1>Mars Solar Time</h1>
+			<p>The calculations are made regarding the equations supplied by NASA.</p>
+			<div class="display">
+				<p style="color: grey">Time now on Earth</p>
+				<span id="displayEarth"></span>
+				<p style="color:grey">Time now on Mars</p>
+				<span id="displayMars"></span>
+			</div>
+		</div>
+		<div class="values">
+			<div class="section">
+				<div class="part">
+					<h2>PART A - Determine Days Since J2000 Epoch</h2>
+				</div>
+				<div class="val">
+					<div class="number">
+						millis = <span class="millis"></span>;
+					</div>
+
+					<div class="explanation">
+						Number of milliseconds that have elapsed since 00:00:00 on January 1, 1970, the Unix epoch.
+					</div>
+				</div>
+				<div class="val">
+					<div class="number">
+						JDUT = <span class="jdut"></span>;
+					</div>
+
+					<div class="explanation">
+						Converts the Gregorian calendar date to a Julian Date.
+					</div>
+					<div class="equation">
+						JDUT = 2440587.5 + (millis / 8.64×107 ms/day)
+					</div>
+				</div>
+				<div class="val">
+					<div class="number">
+						TAI-UTC = <span class="taiMinusUtc"></span>s;
+					</div>
+
+					<div class="explanation">
+						Gives leap seconds between TAI(International Atomic Time) and UTC. 
+					</div>
+					<div class="equation">
+						Taken from USNO table for leap seconds.
+					</div>
+				</div>
+				<div class="val">
+					<div class="number">
+						TT-UTC = <span class="ttMinusUtc"></span>s;
+					</div>
+
+					<div class="explanation">
+						Gives leap seconds between TT(Terrestrial Time) and UTC. 
+					</div>
+					<div class="equation">
+						TT - UTC = (TAI - UTC) + 32.184s
+					</div>
+				</div>
+				<div class="val">
+					<div class="number">
+						JDTT = <span class="jdtt"></span>;
+					</div>
+
+					<div class="explanation">
+						Determines Julian Date in Terrestrial Time.
+					</div>
+					<div class="equation">
+						JDTT = JDUT + [(TT - UTC) / 86400 s·day-1]
+					</div>
+				</div>
+				<div class="val">
+					<div class="number">
+						ΔtJ2000 = <span class="timeOffsetJ2000"></span>;
+					</div>
+
+					<div class="explanation">
+						Time offset from J2000 epoch in Terrestrial Time.
+					</div>
+					<div class="equation">
+						ΔtJ2000 = JDTT - 2451545.0
+					</div>
+				</div>
+			</div>
+
+			<div class="section">
+				<div class="part">
+					<h2>PART B - Determine Mars Parameters of Date</h2>
+				</div>
+				<div class="val">
+					<div class="number">
+						M = <span class="meanAnomaly"></span>;
+					</div>
+
+					<div class="explanation">
+						Determine Mars mean anomaly
+					</div>
+					<div class="equation">
+						M = 19.3871° + 0.52402073° ΔtJ2000
+					</div>
+				</div>
+				<div class="val">
+					<div class="number">
+						αFMS = <span class="angleFMS"></span>;
+					</div>
+
+					<div class="explanation">
+						Determine angle of Fiction Mean Sun
+					</div>
+					<div class="equation">
+						αFMS = 270.3871° + 0.524038496° ΔtJ2000
+					</div>
+				</div>
+				<div class="val">
+					<div class="number">
+						PBS = <span class="pbs"></span>;
+					</div>
+
+					<div class="explanation">
+						Determine perturbers where
+						<table>
+							<tr>
+								<th>Ai</th>
+								<th>τi</th>
+								<th>φi</th>
+							</tr>
+							<tr>
+								<td>0.0071</td>
+								<td>2.2353</td>
+								<td>49.409</td>
+							</tr>
+							<tr>
+								<td>0.0057</td>
+								<td>2.7543</td>
+								<td>168.173</td>
+							</tr>
+							<tr>
+								<td>0.0039</td>
+								<td>1.1177</td>
+								<td>191.837</td>
+							</tr>
+							<tr>
+								<td>0.0037</td>
+								<td>15.7866</td>
+								<td>21.736</td>
+							</tr>
+							<tr>
+								<td>0.0021</td>
+								<td>2.1354</td>
+								<td>15.704</td>
+							</tr>
+							<tr>
+								<td>0.0020</td>
+								<td>2.4694</td>
+								<td>95.528</td>
+							</tr>
+							<tr>
+								<td>0.0018</td>
+								<td>32.8493</td>
+								<td>49.095</td>
+							</tr>
+						</table>
+					</div>
+					<div class="equation">
+						PBS = Σ(i=1,7) Ai cos [ (0.985626° ΔtJ2000 / τi) + φi] 
+					</div>
+				</div>
+				<div class="val">
+					<div class="number">
+						v-M = <span class="equationOfCenter"></span>;
+					</div>
+
+					<div class="explanation">
+						Determine Equation Of Center
+					</div>
+					<div class="equation">
+						ν - M = (10.691° + 3.0° × 10-7 ΔtJ2000) sin M + 0.623° sin 2M + 0.050° sin 3M + 0.005° sin 4M + 0.0005° sin 5M + PBS
+					</div>
+				</div>
+				<div class="val">
+					<div class="number">
+						Solar Longitude = <span class="Ls"></span>;
+					</div>
+
+					<div class="explanation">
+						Determine areocentric solar longitude
+					</div>
+					<div class="equation">
+						Ls = αFMS + (ν - M)
+					</div>
+				</div>
+			</div>
+
+			<div class="section">
+				<div class="part">
+					<h2>PART C - Determine Mars Time</h2>
+				</div>
+				<div class="val">
+					<div class="number">
+						Equation of Time = <span class="equationOfTime"></span>&deg;
+					</div>
+
+					<div class="explanation">
+						Determine Equation of Time in degrees.
+					</div>
+					<div class="equation">
+						EOT = 2.861° sin 2Ls - 0.071° sin 4Ls + 0.002° sin 6Ls - (ν - M)
+					</div>
+				</div>
+				<div class="val">
+					<div class="number">
+						MTC = <span class="mtc"></span>;
+					</div>
+
+					<div class="explanation">
+						Determine mean solar time at Mars's prime meridian.
+					</div>
+					<div class="equation">
+						MTC = mod24 { 24 h × ( [(JDTT - 2451549.5) / 1.0274912517] + 44796.0 - 0.0009626 ) }
+					</div>
+				</div>
+				<div class="val">
+					<div class="number">
+						LMST = <span class="lmst"></span>;
+					</div>
+
+					<div class="explanation">
+						Determine Local Mean Solar Time for a given planetographic longitude, Λ, in degrees west. Taken as 0.
+					</div>
+					<div class="equation">
+						LMST = MTC - Λ (24 h / 360°) = MTC - Λ (1 h / 15°)
+					</div>
+				</div>
+				<div class="val">
+					<div class="number">
+						LTST = <span class="ltst"></span>;
+					</div>
+
+					<div class="explanation">
+						Determine Local True Solar Time
+					</div>
+					<div class="equation">
+						LTST = LMST + EOT (24 h / 360°) = LMST + EOT (1 h / 15°)
+					</div>
+				</div>
+				<div class="val">
+					<div class="number">
+						subsolar Longitude = <span class="subsolarLongitude"></span>;
+					</div>
+
+					<div class="explanation">
+						Determine subsolar longitude
+					</div>
+					<div class="equation">
+						Λs = (MTC + EOT) (360° / 24 h) + 180° = (MTC + EOT) (15°/h) + 180°
+					</div>
+				</div>
+				<div class="val">
+					<div class="number">
+						Mars Time = <span class="marsTime"></span>;
+					</div>
+
+					<div class="explanation">
+						Mars Solar Time
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script>
+		function millisToReadableTime(millisToDisplay){
+			var tempHours = millisToDisplay / (60*60*1000);
+	 		var hours = Math.floor(tempHours); //Get complete hours 
+	 		var modHours = hours % 24;
+	 		var withoutHours = millisToDisplay - (hours*60*60*1000); //subtract hours
+	 		var tempMinutes = withoutHours / (1000*60); //get minutes
+	 		var minutes = Math.floor(tempMinutes); //get complete minutes
+	 		var withoutMinutes = withoutHours - (minutes*60*1000); //subtract minutes
+	 		var tempSeconds = withoutMinutes / 1000; //get seconds
+	 		var seconds = Math.floor(tempSeconds); //get complete seconds
+	 		return modHours + ':' + minutes + ':' + seconds;
+
+	 	}
 	 	function cos(deg) {
-                return Math.cos(deg * Math.PI / 180);
-            }
-            function sin(deg) {
-                return Math.sin(deg * Math.PI / 180);
-            }
+	 		return Math.cos(deg * Math.PI / 180);
+	 	}
+	 	function sin(deg) {
+	 		return Math.sin(deg * Math.PI / 180);
+	 	}
 	 	function getMarsTime(){
 	 		var d = new Date();
+	 		var temp=23;
 	 		var millis = d.getTime();
 	 		var jdut = 2440587.5 + (millis / (8.64E7));
 	 		var taiMinusUtc = 37; //TO-DO: changeable
@@ -19,44 +364,45 @@
 	 		var timeOffsetJ2000 = jdtt - 2451545.0;
 	 		var meanAnomaly = 19.3871 + (0.52402073 * timeOffsetJ2000);
 	 		var angleFMS = 270.3871 + (0.524038496* timeOffsetJ2000);
-	 		var pbs = 0.0071 * cos((0.985626 * j2000 /  2.2353) +  49.409) +
-                    0.0057 * cos((0.985626 * j2000 /  2.7543) + 168.173) +
-                    0.0039 * cos((0.985626 * j2000 /  1.1177) + 191.837) +
-                    0.0037 * cos((0.985626 * j2000 / 15.7866) +  21.736) +
-                    0.0021 * cos((0.985626 * j2000 /  2.1354) +  15.704) +
-                    0.0020 * cos((0.985626 * j2000 /  2.4694) +  95.528) +
-                    0.0018 * cos((0.985626 * j2000 / 32.8493) +  49.095);
-            var equationOfCenter =  (10.691 +( 3.0 * 10E-7 * timeOffsetJ2000))* sin(meanAnomaly) + 0.623* sin(2*meanAnomaly) + 0.050* sin(3*meanAnomaly) + 0.005* sin(4*meanAnomaly) + 0.0005* sin(5*meanAnomaly) + pbs;
-            var Ls = angleFMS + equationOfCenter;
-            var equationOfTime =  (2.861* sin (2*Ls)) - (0.071* sin (4*Ls)) + (0.002* sin(6*Ls)) - equationOfCenter;
-            var withoutModMTC =  24 * ( ((jdtt - 2451549.5) / 1.0274912517) + 44796.0 - 0.0009626 ) ;
-            var mtc = withoutModMTC % 24;
+	 		var pbs = 0.0071 * cos((0.985626 * timeOffsetJ2000 /  2.2353) +  49.409) +
+	 		0.0057 * cos((0.985626 * timeOffsetJ2000 /  2.7543) + 168.173) +
+	 		0.0039 * cos((0.985626 * timeOffsetJ2000 /  1.1177) + 191.837) +
+	 		0.0037 * cos((0.985626 * timeOffsetJ2000 / 15.7866) +  21.736) +
+	 		0.0021 * cos((0.985626 * timeOffsetJ2000 /  2.1354) +  15.704) +
+	 		0.0020 * cos((0.985626 * timeOffsetJ2000 /  2.4694) +  95.528) +
+	 		0.0018 * cos((0.985626 * timeOffsetJ2000 / 32.8493) +  49.095);
+	 		var equationOfCenter =  (10.691 +( 3.0 * 10E-7 * timeOffsetJ2000))* sin(meanAnomaly) + 0.623* sin(2*meanAnomaly) + 0.050* sin(3*meanAnomaly) + 0.005* sin(4*meanAnomaly) + 0.0005* sin(5*meanAnomaly) + pbs;
+	 		var Ls = angleFMS + equationOfCenter;
+	 		var equationOfTime =  (2.861* sin (2*Ls)) - (0.071* sin (4*Ls)) + (0.002* sin(6*Ls)) - equationOfCenter;
+	 		var withoutModMTC =  24 * ( ((jdtt - 2451549.5) / 1.0274912517) + 44796.0 - 0.0009626 ) ;
+	 		var mtc = withoutModMTC % 24;
             var lmst = mtc; // - degree*(1/15)
             var ltst = lmst + (equationOfTime/15);
             var subsolarLongitude = (mtc + equationOfTime)*15 + 180;
 
-             $(".millis").text(add_commas(millis));
-             $(".jdut").text(add_commas(jdut.toFixed(5)));
-             $(".ttMinusUtc").text(ttMinusUtc.toFixed(5));
+            $(".millis").text(millis);
+            $(".jdut").text(jdut.toFixed(5));
+            $(".taiMinusUtc").text(taiMinusUtc.toFixed(5));
+            $(".ttMinusUtc").text(ttMinusUtc.toFixed(5));
+            $(".jdtt").text(jdtt.toFixed(5));
+            $(".timeOffsetJ2000").text(timeOffsetJ2000.toFixed(5));
+            $(".meanAnomaly").text(meanAnomaly.toFixed(5));
+            $(".angleFMS").text(angleFMS.toFixed(5));
+            $(".pbs").text(pbs.toFixed(5));
+            $(".equationOfCenter").text(equationOfCenter.toFixed(5));
+            $(".Ls").text(Ls.toFixed(5));
+            $(".equationOfTime").text(equationOfTime.toFixed(5));
+            $(".mtc").text(mtc.toFixed(5));
+            $(".lmst").text(lmst.toFixed(5));
+            $(".ltst").text(ltst.toFixed(5));
+            $(".subsolarLongitude").text(subsolarLongitude.toFixed(5));
+            $(".marsTime").text(millisToReadableTime(withoutModMTC));
+            document.getElementById("displayEarth").innerHTML = d.toUTCString();
+            document.getElementById("displayMars").innerHTML = millisToReadableTime(withoutModMTC);
 
 
-	 	}
+        }
 
-	 </script>
-	</head>
-	<script type="text/javascript"></script>
-	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,700,300,400" rel="stylesheet" type="text/css">
-	<style type="text/css"></style>
-	<body onload="getMarsTime()">
-	<div class = "container">
-		<div class = "intro">
-			
-		</div>
-		<div class="values">
-			millis = <span class='millis'></span>&deg;
-		</div>
-		
-	</div>
-	 
-	</body>
+    </script>
+</body>
 </html>
