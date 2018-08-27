@@ -42,6 +42,16 @@ table, td {
 	margin-bottom: 10px;
 	padding: 20px;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	cursor: pointer;
+	display: block;
+
+}
+.active, .part:hover {
+	background-color: #ccc;
+}
+.section{
+	display: none;
+	overflow: hidden;
 }
 .val{
 	width: 400px;
@@ -77,14 +87,18 @@ table, td {
 				<p style="color: grey">Time now on Earth</p>
 				<span id="displayEarth"></span>
 				<p style="color:grey">Time now on Mars</p>
+				Mars Solar Date = <span class="msd"></span>
 				<span id="displayMars"></span>
 			</div>
 		</div>
 		<div class="values">
+			
+			<button class="part"><h2>PART A - Determine Days Since J2000 Epoch</h2></button>
 			<div class="section">
-				<div class="part">
+				<!--<div class="part">
 					<h2>PART A - Determine Days Since J2000 Epoch</h2>
-				</div>
+				</div>-->
+
 				<div class="val">
 					<div class="number">
 						millis = <span class="millis"></span>
@@ -156,10 +170,12 @@ table, td {
 				</div>
 			</div>
 
+			
+			<button class="part"><h2>PART B - Determine Mars Parameters of Date</h2></button>
 			<div class="section">
-				<div class="part">
+				<!--<div class="part">
 					<h2>PART B - Determine Mars Parameters of Date</h2>
-				</div>
+				</div>-->
 				<div class="val">
 					<div class="number">
 						M = <span class="meanAnomaly"></span>
@@ -264,10 +280,12 @@ table, td {
 				</div>
 			</div>
 
+			
+			<button class="part"><h2>PART C - Determine Mars Time</h2></button>
 			<div class="section">
-				<div class="part">
+				<!--<div class="part">
 					<h2>PART C - Determine Mars Time</h2>
-				</div>
+				</div>-->
 				<div class="val">
 					<div class="number">
 						Equation of Time = <span class="equationOfTime"></span>&deg
@@ -399,19 +417,79 @@ table, td {
 	 		//getMarsTime();
 	 		//setInterval(getMarsTime,10);
 	 	}
+	 	function GetYear (date) {
+	 		var year = date.getYear();
+	 		if (year < 1900) year += 1900;
+	 		return year;
+	 	}
 
-	 	function getMarsTime(){
-	 		var d = new Date();
-	 		if($('#datePicker').val()){
-	 			var strDate = $('#datePicker').val();
-	 			var year = strDate.substring(0,4);
-	 			var month = strDate.substring(5,7);
-	 			var day = strDate.substring(8,10);
-	 			d = new Date(strDate);
-	 		}
-	 		var millis = d.getTime();
-	 		var jdut = 2440587.5 + (millis / (8.64E7));
-	 		var taiMinusUtc = 37; //TO-DO: changeable
+    // Get Month where January = 1 (not 0).
+
+    function GetMonth (date) {
+    	return date.getMonth() + 1;
+    }
+    function getLeapSeconds (date) {
+    	var yyyymm = GetYear(date) * 100 + GetMonth(date);
+    	if ( yyyymm >= 201701 ) return 37;
+    	if ( yyyymm >= 201507 ) return 36;
+    	if ( yyyymm >= 201207 ) return 35;
+    	if ( yyyymm >= 200901 ) return 34;
+    	if ( yyyymm >= 200601 ) return 33;
+    	if ( yyyymm >= 199901 ) return 32;
+    	if ( yyyymm >= 199707 ) return 31;
+    	if ( yyyymm >= 199601 ) return 30;
+
+    	if ( yyyymm >= 199407 ) return 29;
+    	if ( yyyymm >= 199307 ) return 28;
+    	if ( yyyymm >= 199207 ) return 27;
+    	if ( yyyymm >= 199101 ) return 26;
+    	if ( yyyymm >= 199001 ) return 25;
+    	if ( yyyymm >= 198801 ) return 24;
+    	if ( yyyymm >= 198507 ) return 23;
+    	if ( yyyymm >= 198307 ) return 22;
+    	if ( yyyymm >= 198207 ) return 21;
+
+    	if ( yyyymm >= 198107 ) return 20;
+    	if ( yyyymm >= 198001 ) return 19;
+    	if ( yyyymm >= 197901 ) return 18;
+    	if ( yyyymm >= 197801 ) return 17;
+    	if ( yyyymm >= 197701 ) return 16;
+    	if ( yyyymm >= 197601 ) return 15;
+    	if ( yyyymm >= 197501 ) return 14;
+    	if ( yyyymm >= 197401 ) return 13;
+    	if ( yyyymm >= 197301 ) return 12;
+
+    	if ( yyyymm >= 197207 ) return 11;
+    	if ( yyyymm >= 197201 ) return 10;
+    	if ( yyyymm >= 196802 ) return 4.2131700;
+    	if ( yyyymm >= 196601 ) return 4.3131700;
+    	if ( yyyymm >= 196509 ) return 3.8401300;
+    	if ( yyyymm >= 196507 ) return 3.7401300;
+    	if ( yyyymm >= 196503 ) return 3.6401300;
+    	if ( yyyymm >= 196501 ) return 3.5401300;
+    	if ( yyyymm >= 196409 ) return 3.4401300;
+    	if ( yyyymm >= 196404 ) return 3.3401300;
+    	if ( yyyymm >= 196401 ) return 3.2401300;
+    	if ( yyyymm >= 196311 ) return 1.9458580;
+    	if ( yyyymm >= 196201 ) return 1.8458580;
+    	if ( yyyymm >= 196108 ) return 1.3728180;
+    	if ( yyyymm >= 196101 ) return 1.4228180;
+
+
+    }
+
+    function getMarsTime(){
+    	var d = new Date();
+    	if($('#datePicker').val()){
+    		var strDate = $('#datePicker').val();
+    		var year = strDate.substring(0,4);
+    		var month = strDate.substring(5,7);
+    		var day = strDate.substring(8,10);
+    		d = new Date(strDate);
+    	}
+    	var millis = d.getTime();
+    	var jdut = 2440587.5 + (millis / (8.64E7));
+    	var taiMinusUtc = getLeapSeconds(d);
 	 		var ttMinusUtc = taiMinusUtc + 32.184; //TO-DO: make it work prior to Jan 1972
 	 		var jdtt = jdut + (ttMinusUtc/86400)
 	 		var timeOffsetJ2000 = jdtt - 2451545.0;
@@ -460,6 +538,21 @@ table, td {
         $(function(){
         	setInterval(getMarsTime,10);
         });
+
+        var coll = document.getElementsByClassName("part");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+        	coll[i].addEventListener("click", function() {
+        		this.classList.toggle("active");
+        		var content = this.nextElementSibling;
+        		if (content.style.display === "block") {
+        			content.style.display = "none";
+        		} else {
+        			content.style.display = "block";
+        		}
+        	});
+        }
 
     </script>
 </body>
