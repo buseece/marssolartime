@@ -22,6 +22,9 @@ table, td {
 	padding: 5px;
 
 }
+h2{
+	font-family:'Source Sans Pro', sans-serif; 
+}
 
 .intro{
 	width: 400px;
@@ -44,6 +47,8 @@ table, td {
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 	cursor: pointer;
 	display: block;
+	background-color: white !important;
+	border-style: none;
 
 }
 .active, .part:hover {
@@ -73,6 +78,17 @@ table, td {
 .customDate{
 	margin-left: 120px;
 }
+.label{
+	color: grey;
+}
+.earth{
+	display: inline-block;
+	margin-right: 20px;
+}
+.mars{
+	display: inline-block;
+	margin-left: 20px;
+}
 </style>
 <body onload="getMarsTime()">
 	<div class = "container">
@@ -84,11 +100,16 @@ table, td {
 				<input type="button" value="date" id="datebtn">
 			</div>
 			<div class="display">
-				<p style="color: grey">Time now on Earth</p>
-				<span id="displayEarth"></span>
-				<p style="color:grey">Time now on Mars</p>
-				Mars Solar Date = <span class="msd"></span>
-				<span id="displayMars"></span>
+				<div class="earth">
+				<h2 style="color: grey">Earth</h2>
+				<p class="label">Date</p> <span id="displayEarthDate"></span><br>
+				<p class="label">Time</p> <span id="displayEarthTime"></span>
+				</div>
+				<div class="mars">
+				<h2 style="color: grey">Mars</h2>
+				<p class="label">Date</p> <span class="msd"></span><br>
+				<p class="label">Time</p> <span id="displayMars"></span>
+				</div>
 			</div>
 		</div>
 		<div class="values">
@@ -477,7 +498,18 @@ table, td {
 
 
     }
-
+    function addZero(i) {
+    	if (i < 10) {
+    		i = "0" + i;
+    	}
+    	return i;
+    }
+    function displayTime(d){
+    	var h = addZero(d.getHours());
+    	var m = addZero(d.getMinutes());
+    	var s = addZero(d.getSeconds());
+    	return h + ":" + m + ":" + s;
+    }
     function getMarsTime(){
     	var d = new Date();
     	if($('#datePicker').val()){
@@ -530,7 +562,9 @@ table, td {
             $(".ltst").text(ltst.toFixed(5));
             $(".subsolarLongitude").text(subsolarLongitude.toFixed(5));
             $(".marsTime").text(dayToHHMMSS(msd));
-            document.getElementById("displayEarth").innerHTML = d.toUTCString();
+            //document.getElementById("displayEarth").innerHTML = d.toUTCString();
+            document.getElementById("displayEarthDate").innerHTML = d.toDateString();
+            document.getElementById("displayEarthTime").innerHTML = displayTime(d);
             document.getElementById("displayMars").innerHTML = dayToHHMMSS(msd);
 
 
