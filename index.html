@@ -82,12 +82,24 @@ h2{
 .label{
 	color: grey;
 }
+.mars-icon{
+	width:32px;
+	display: inline-block;
+	margin-left: 10px;
+}
+.title{
+	display: inline-block;
+	margin-bottom: -10px;
+}
 
 </style>
 <body onload="getMarsTime()">
 	<div class = "container">
 		<div class = "intro">
-			<h1>Mars Solar Time</h1>
+			<div class="title">
+				<h1>Mars Solar Time</h1>
+			</div>
+			<img src="https://image.ibb.co/cpJAF9/mars.jpg" alt="mars" border="0" class="mars-icon" />
 			<p>The calculations are made regarding the equations supplied by NASA.</p>
 			<div class="customDate" style="left:20px;">
 				<input type="date" name="bday" id="datePicker">
