@@ -522,15 +522,17 @@ h2{
     	var d = new Date();
     	if($('#datePicker').val()){
     		var strDate = $('#datePicker').val();
-    		var year = strDate.substring(0,4);
-    		var month = strDate.substring(5,7);
-    		var day = strDate.substring(8,10);
+    		var year = parseInt(strDate.substring(0,4));
+    		var month = parseInt(strDate.substring(5,7))-1;
+    		var day = parseInt(strDate.substring(8,10));
     		if($('#hourPicker').val()){
     			var hhmm = $('#hourPicker').val();
     			var hour = hhmm.substring(0,2);
     			var minutes = hhmm.substring(3,5);
     			d = new Date(year,month,day,hour,minutes);
+
     		}else{
+ 
     			d = new Date(year,month,day,0,0);
     		}
     		
@@ -581,7 +583,10 @@ h2{
             $(".subsolarLongitude").text(subsolarLongitude.toFixed(5));
             $(".marsTime").text(dayToHHMMSS(msd));
             //document.getElementById("displayEarth").innerHTML = d.toUTCString();
+            //console.log(d.toUTCString().substring(0,16));
+            //console.log(d.toDateString());
             document.getElementById("displayEarthDate").innerHTML = d.toDateString();
+            //document.getElementById("displayEarthDate").innerHTML = d.toUTCString().substring(0,16);
             document.getElementById("displayEarthTime").innerHTML = displayTime(d);
             document.getElementById("displayMars").innerHTML = dayToHHMMSS(msd);
 
